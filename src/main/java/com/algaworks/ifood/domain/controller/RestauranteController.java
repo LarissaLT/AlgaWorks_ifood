@@ -2,8 +2,6 @@ package com.algaworks.ifood.domain.controller;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.ifood.domain.model.Cidade;
-import com.algaworks.ifood.domain.model.Cozinha;
 import com.algaworks.ifood.domain.model.Restaurante;
 import com.algaworks.ifood.domain.repository.RestauranteRepository;
 import com.algaworks.ifood.domain.service.CadastroRestauranteService;

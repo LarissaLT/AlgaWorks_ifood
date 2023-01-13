@@ -14,18 +14,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/teste")
-public class TesteController {
+@RequestMapping("/teste-01")
+public class Teste01QueryMethodsController {
 
     @Autowired
     private CozinhaRepository cozinhaRepository;
     @Autowired
     private RestauranteRepository restauranteRepository;
-
-    @GetMapping("/cozinhas/por-nome")
-    public List<Cozinha> consultarCozinhaPorNome(@RequestParam ("nome") String nome) {
-        return cozinhaRepository.findTodasByNomeContaining(nome);
-    }
 
     @GetMapping("/restaurantes/por-nome-id")
     public List<Restaurante> consultarCozinhaPorNomeEId(String nome,@RequestParam("maritaca") Long cozinhaId) {
@@ -34,10 +29,6 @@ public class TesteController {
 
     @GetMapping("/restaurantes/por-preco")
     public List<Restaurante> consultaRestauranterPorPreco(BigDecimal taxaInicial, BigDecimal taxaFinal) {
-        return restauranteRepository.queryPorPrecoByTaxaFreteBetween(taxaInicial,taxaFinal);
+        return restauranteRepository.findByTaxaFreteBetween(taxaInicial,taxaFinal);
     }
-//    @GetMapping("/restaurantes/por-nome")
-//    public List<Restaurante> consultarRestaurantePorNome(String nome) {
-//        return restauranteRepository.queryPorNomeByNomeContaining(nome);
-//    }
 }
