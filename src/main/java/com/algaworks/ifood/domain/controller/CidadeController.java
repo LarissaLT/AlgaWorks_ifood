@@ -2,6 +2,7 @@ package com.algaworks.ifood.domain.controller;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.ifood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.ifood.domain.exception.NegocioException;
 import com.algaworks.ifood.domain.model.Cidade;
 import com.algaworks.ifood.domain.repository.CidadeRepository;
@@ -40,7 +41,7 @@ public class CidadeController {
     public Cidade adicionar(@RequestBody Cidade cidade) {
         try{
             return cadastroCidade.salvar(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -53,7 +54,7 @@ public class CidadeController {
 
         try {
             return cadastroCidade.salvar(cidadeAtual);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage());
         }
     }
