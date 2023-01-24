@@ -2,6 +2,7 @@ package com.algaworks.ifood.domain.service;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.ifood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.ifood.domain.model.Cozinha;
 import com.algaworks.ifood.domain.model.Restaurante;
 import com.algaworks.ifood.domain.repository.CozinhaRepository;
@@ -18,8 +19,6 @@ import java.util.List;
 @Service
 public class CadastroRestauranteService {
 
-    public static final String MSG_RESTAURANTE_NAO_ENCONTRADA
-            = "Não existe um cadastro de restaurante com código %d";
     public static final String MSG_RESTAURANTE_EM_USO
             = "Restaurante de código %d não pode ser removida, pois está em uso";
     @Autowired
@@ -45,8 +44,7 @@ public class CadastroRestauranteService {
             restauranteRepository.deleteById(restauranteId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_RESTAURANTE_NAO_ENCONTRADA, restauranteId));
+            throw new RestauranteNaoEncontradoException(restauranteId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -56,8 +54,7 @@ public class CadastroRestauranteService {
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe um cadastro de restaurante com código %d", restauranteId)));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 }
 

@@ -1,8 +1,6 @@
 package com.algaworks.ifood.domain.controller;
 
-import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.ifood.domain.exception.NegocioException;
+import com.algaworks.ifood.domain.exception.*;
 import com.algaworks.ifood.domain.model.Cidade;
 import com.algaworks.ifood.domain.model.Cozinha;
 import com.algaworks.ifood.domain.model.Restaurante;
@@ -46,7 +44,7 @@ public class RestauranteController {
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
         try{
             return cadastroRestaurante.salvar(restaurante);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -60,7 +58,7 @@ public class RestauranteController {
 
         try {
             return cadastroRestaurante.salvar(restauranteAtual);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
