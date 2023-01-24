@@ -41,6 +41,7 @@ public class RestauranteController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
         return cadastroRestaurante.salvar(restaurante);
     }
