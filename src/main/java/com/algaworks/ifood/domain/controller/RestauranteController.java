@@ -2,6 +2,7 @@ package com.algaworks.ifood.domain.controller;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.ifood.domain.exception.NegocioException;
 import com.algaworks.ifood.domain.model.Cidade;
 import com.algaworks.ifood.domain.model.Cozinha;
 import com.algaworks.ifood.domain.model.Restaurante;
@@ -43,17 +44,25 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-        return cadastroRestaurante.salvar(restaurante);
+        try{
+            return cadastroRestaurante.salvar(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restauranteId}")
     public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
         Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        //copia dados do segundo parametro para o primeiro, porem nao copia os campos passados no ignoreproperties
-        BeanUtils.copyProperties(restaurante, restauranteAtual,
-                        "id", "formasPagamento", "endereco", "dataCadastro", "produtos","cozinha");
 
-        return cadastroRestaurante.salvar(restauranteAtual);
+        BeanUtils.copyProperties(restaurante, restauranteAtual,
+                "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+
+        try {
+            return cadastroRestaurante.salvar(restauranteAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
 //    @PatchMapping("/{restauranteId}")
