@@ -1,4 +1,4 @@
-package com.algaworks.ifood.domain.controller;
+package com.algaworks.ifood.domain.api.controller;
 
 import com.algaworks.ifood.domain.exception.*;
 import com.algaworks.ifood.domain.model.Cidade;
