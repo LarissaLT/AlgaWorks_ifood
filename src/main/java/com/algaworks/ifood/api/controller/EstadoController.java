@@ -1,4 +1,4 @@
-package com.algaworks.ifood.domain.api.controller;
+package com.algaworks.ifood.api.controller;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;

@@ -1,4 +1,4 @@
-package com.algaworks.ifood.domain.api.exceptionhandler;
+package com.algaworks.ifood.api.exceptionhandler;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -142,6 +144,30 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         Problem problem = createProblemBuilder((HttpStatus) statusCode, problemType, detail)
                 .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+                .build();
+
+        return handleExceptionInternal(ex, problem, headers, statusCode, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+        BindingResult bindingResult = ex.getBindingResult();
+
+        List<Problem.Field> problemField = bindingResult.getFieldErrors().stream()
+                .map(fieldError -> Problem.Field.builder()
+                        .name(fieldError.getField())
+                        .userMessage(fieldError.getDefaultMessage())
+                        .build())
+                .collect(Collectors.toList());
+
+        Problem problem = createProblemBuilder((HttpStatus) statusCode, problemType, detail)
+                .userMessage(detail)
+                .fields(problemField)
                 .build();
 
         return handleExceptionInternal(ex, problem, headers, statusCode, request);

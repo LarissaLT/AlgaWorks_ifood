@@ -1,5 +1,6 @@
-package com.algaworks.ifood.domain.api.controller;
+package com.algaworks.ifood.api.controller;
 
+import com.algaworks.ifood.Groups;
 import com.algaworks.ifood.domain.exception.*;
 import com.algaworks.ifood.domain.model.Cidade;
 import com.algaworks.ifood.domain.model.Cozinha;
@@ -9,6 +10,7 @@ import com.algaworks.ifood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -46,7 +49,8 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+    public Restaurante adicionar(
+            @RequestBody @Validated(Groups.CadastroRestaurante.class) Restaurante restaurante) {
         try{
             return cadastroRestaurante.salvar(restaurante);
         } catch (CozinhaNaoEncontradaException e) {

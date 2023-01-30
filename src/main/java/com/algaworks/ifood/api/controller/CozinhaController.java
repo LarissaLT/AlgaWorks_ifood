@@ -1,10 +1,11 @@
-package com.algaworks.ifood.domain.api.controller;
+package com.algaworks.ifood.api.controller;
 
 import com.algaworks.ifood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.ifood.domain.model.Cozinha;
 import com.algaworks.ifood.domain.repository.CozinhaRepository;
 import com.algaworks.ifood.domain.service.CadastroCozinhaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+    public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
         return cadastroCozinha.salvar(cozinha);
     }
 
