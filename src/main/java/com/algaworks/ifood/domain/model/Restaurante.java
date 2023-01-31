@@ -2,10 +2,11 @@ package com.algaworks.ifood.domain.model;
 
 import com.algaworks.ifood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import jakarta.validation.groups.ConvertGroup;
+import jakarta.validation.groups.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,19 +29,21 @@ public class Restaurante {
 
 //    @NotNull
 //    @NotEmpty
-    @NotBlank(groups = Groups.CadastroRestaurante.class)
+    @NotBlank
     @Column(nullable = false)
     private String nome;
 
 //    @DecimalMin("0")
-    @PositiveOrZero(groups = Groups.CadastroRestaurante.class)
+    @NotNull
+    @PositiveOrZero
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
 //    @JsonIgnore
 //    @JsonIgnoreProperties("hibernateLazyInitializer")
     @Valid
-    @NotNull(groups = Groups.CadastroRestaurante.class)
+    @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+    @NotNull
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;

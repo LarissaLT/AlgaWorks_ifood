@@ -1,7 +1,6 @@
 package com.algaworks.ifood.domain.model;
 
 import com.algaworks.ifood.Groups;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Cozinha {
 
-    @NotNull(groups = Groups.CadastroRestaurante.class)
+    @NotNull(groups = Groups.CozinhaId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

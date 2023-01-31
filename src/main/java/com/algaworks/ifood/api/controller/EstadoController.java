@@ -5,6 +5,7 @@ import com.algaworks.ifood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.ifood.domain.model.Estado;
 import com.algaworks.ifood.domain.repository.EstadoRepository;
 import com.algaworks.ifood.domain.service.CadastroEstadoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +37,13 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado adicionar(@RequestBody Estado estado) {
+    public Estado adicionar(@RequestBody @Valid Estado estado) {
         return cadastroEstado.salvar(estado);
     }
 
     @PutMapping("/{estadoId}")
-    public Estado atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
+    public Estado atualizar(
+            @PathVariable Long estadoId, @RequestBody @Valid Estado estado) {
         Estado estadoAtual = cadastroEstado.buscarOuFalhar(estadoId);
 
             BeanUtils.copyProperties(estado, estadoAtual, "id");

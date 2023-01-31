@@ -7,6 +7,7 @@ import com.algaworks.ifood.domain.exception.NegocioException;
 import com.algaworks.ifood.domain.model.Cidade;
 import com.algaworks.ifood.domain.repository.CidadeRepository;
 import com.algaworks.ifood.domain.service.CadastroCidadeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class CidadeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cidade adicionar(@RequestBody Cidade cidade) {
+    public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
         try{
             return cadastroCidade.salvar(cidade);
         } catch (EstadoNaoEncontradoException e) {
@@ -47,7 +48,8 @@ public class CidadeController {
     }
 
     @PutMapping("/{cidadeId}")
-    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+    public Cidade atualizar(
+            @PathVariable Long cidadeId, @RequestBody @Valid Cidade cidade) {
         Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
 
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
