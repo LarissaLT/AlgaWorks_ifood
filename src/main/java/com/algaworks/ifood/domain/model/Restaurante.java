@@ -2,6 +2,7 @@ package com.algaworks.ifood.domain.model;
 
 import com.algaworks.ifood.core.validation.Groups;
 import com.algaworks.ifood.core.validation.Multiplo;
+import com.algaworks.ifood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao(
+        valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -37,7 +40,6 @@ public class Restaurante {
 //    @DecimalMin("0")
     @NotNull
     @PositiveOrZero
-    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
