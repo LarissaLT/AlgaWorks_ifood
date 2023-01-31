@@ -1,6 +1,7 @@
 package com.algaworks.ifood.domain.model;
 
-import com.algaworks.ifood.Groups;
+import com.algaworks.ifood.core.validation.Groups;
+import com.algaworks.ifood.core.validation.Multiplo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -36,6 +37,7 @@ public class Restaurante {
 //    @DecimalMin("0")
     @NotNull
     @PositiveOrZero
+    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
